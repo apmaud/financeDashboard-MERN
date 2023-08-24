@@ -1,7 +1,30 @@
+import { createTheme } from "@mui/material/styles"
+import { Box, CssBaseline, ThemeProvider } from "@mui/material"
+import { useMemo } from "react"
+import { themeSettings } from "./theme";
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import Navbar from "@/scenes/navbar";
+import Dashboard from "@/scenes/dashboard";
+
 function App() {
-  
+  const theme = useMemo(() => createTheme(themeSettings), []); // createTheme callback fn imported, and pass in theme settings from theme.ts
   return (
-    <div className='app'></div>
+    <div className='app'>
+      <BrowserRouter>
+        {/* Theme provider from materialUI, pass in theme that was made, any component inside will use the theme */}
+        <ThemeProvider theme={theme}> 
+          {/* Resets CSS baseline on the browser */}
+          <CssBaseline /> 
+          <Box width="100%" height="100%" padding="1rem 2rem 4rem 2rem">
+            <Navbar />
+            <Routes>
+              <Route path ="/" element={<Dashboard />}/>
+              <Route path="/predictions" element={<div>predictions page</div>} />
+            </Routes>
+          </Box>
+        </ThemeProvider>
+      </BrowserRouter>
+    </div>
   )
 }
 
